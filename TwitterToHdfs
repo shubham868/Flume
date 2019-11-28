@@ -1,0 +1,36 @@
+TwitterAgent.sources = Twitter
+TwitterAgent.channels=MemChannel
+TwitterAgent.sinks = HDFS
+
+TwitterAgent.sources.Twitter.type = com.cloudera.flume.source.TwitterSource
+TwitterAgent.sources.Twitter.handler = org.apache.flume.source.http.JSONHandler
+TwitterAgent.sources.Twitter.consumerKey = x
+TwitterAgent.sources.Twitter.consumerSecret = x
+TwitterAgent.sources.Twitter.accessToken = x
+TwitterAgent.sources.Twitter.accessTokenSecret = x
+TwitterAgent.sources.Twitter.keywords = smartphone, samsung, iphone, oneplus, xiomi, redmi, vivo, realme, oppo, huawei
+
+TwitterAgent.sinks.HDFS.type= hdfs
+TwitterAgent.sinks.HDFS.hdfs.path= hdfs://nn01.itversity.com:8020/user/shubham868/TwitterData/
+TwitterAgent.sinks.HDFS.hdfs.fileType=DataStream
+TwitterAgent.sinks.HDFS.hdfs.writeFormat=json
+TwitterAgent.sinks.HDFS.hdfs.batchSize=100
+TwitterAgent.sinks.HDFS.hdfs.rollSize=10000000
+TwitterAgent.sinks.HDFS.hdfs.rollCount=0
+TwitterAgent.sinks.HDFS.hdfs.rollInterval=0
+
+TwitterAgent.channels.MemChannel.type=memory
+TwitterAgent.channels.MemChannel.capacity=1000
+TwitterAgent.channels.MemChannel.transactionCapacity=1000
+
+
+TwitterAgent.sources.Twitter.channels=MemChannel
+TwitterAgent.sinks.HDFS.channel=MemChannel
+
+
+#to run this conf file-
+flume-ng agent 
+--conf /usr/hdp/current/flume-server/lib/flume-twitter-source-1.5.2.2.6.5.0-292.jar \
+-f /home/shubham868/twitter_4.conf
+-Dflume.root.logger=DEBUG,console
+ -n TwitterAgent
